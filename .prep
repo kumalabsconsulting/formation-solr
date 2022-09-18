@@ -6,6 +6,7 @@ for i in `ls -l /home/|grep -v total|awk '{ print $9 } '`
     echo ""
     echo "######### Preparation des TD de formation SOLR ############"
     cp -rf ../formation-solr /home/${i}/solr
+    wget https://www.apache.org/dyn/closer.lua/solr/solr/9.0.0/solr-9.0.0.tgz?action=download -O /home/${i}/solr/solr-9.0.0.tgz
     chown -R ${i}:${i} /home/${i}/solr
     echo "######### FIN Preparation des TD de formation SOLR ############"
     echo ""
