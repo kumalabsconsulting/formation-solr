@@ -1,0 +1,13 @@
+#!/bin/bash
+
+
+for i in `ls -l /home/|grep -v total|awk '{ print $9 } '`
+  do
+    echo ""
+    echo "######### Preparation des TD de formation SOLR ############"
+    cp -rf ../formation-solr /home/${i}/solr
+    chown -R ${i}:${i} /home/${i}/solr
+    echo "######### FIN Preparation des TD de formation SOLR ############"
+    echo ""
+  done
+
