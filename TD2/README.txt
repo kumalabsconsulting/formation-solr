@@ -5,18 +5,19 @@
 #############################################################
 
 ### TD2 - Rendre inaccessible solr en direct avec un proxy ###
-Lancez l'installation de ngnix
+Lancez l'installation de nginx
 
-    sudo apt install ngnix -y
+    sudo apt install nginx -y
 
 
 Supprimez la configuration par défaut:
 
-    sudo rm -rf /etc/ngnix/conf.d/* /etc/ngnix/site-enable/* /etc/ngnix/site-available/*
+    sudo unlink /etc/nginx/sites-enabled/default
+    sudo rm -rf /etc/nginx/conf.d/* /etc/nginx/sites-enable/* /etc/nginx/sites-available/*
 
 Ajouter la nouvelle configuration par défaut en fonction du nom de votre machine
 
-    sudo nano /etc/ngnix/site-available/default
+    sudo nano /etc/nginx/sites-available/default
 
 ########## CONTENU DU FICHIER default #############################
 server {
@@ -34,9 +35,13 @@ server {
 }
 ##################################################################
 
-Ajoutez la configuration pour le SSL:
+## Activez la config par defaut
 
-    sudo nano /etc/ngnix/conf.d/solr.conf
+    sudo ln -s /etc/nginx/sites-available/default  /etc/nginx/sites-enabled/default
+
+## Ajoutez la configuration pour le SSL:
+
+    sudo nano /etc/nginx/conf.d/solr.conf
 
 ########## CONTENU DU FICHIER solr.conf #############################
 server {
@@ -72,5 +77,16 @@ error_page 500 502 503 504 /50x.html;
 
 ATTENTION => remplacez bdx0.kumalabs.consulting par le nom de votre machine ex=> bdx1.kumalabs.consulting
 
+## Relancez le service nginx
+
+    sudo systemctl restart nginx
+
+## Vérifiez que le service est UP
+
+    sudo systemctl status nginx.service
+
+## Votre installation sera accessible sur l'URL
+
+    https://bdxY.kumalabs.consulting/solr/  => REMPLACEZ Y par le numéro de votre machine
 
 ##################################################################
