@@ -4,7 +4,7 @@
 #                                                           #
 #############################################################
 
-### TD2 - Rendre inaccessible solr en direct avec un proxy ###
+### TD2 - Rendre inaccessible solr en direct avec un reverse-proxy ###
 Lancez l'installation de nginx
 
     sudo apt install nginx -y
@@ -19,7 +19,7 @@ Ajouter la nouvelle configuration par défaut en fonction du nom de votre machin
 
     sudo nano /etc/nginx/sites-available/default
 
-########## CONTENU DU FICHIER default #############################
+##### DEBUT COPIER #####
 server {
     listen       80 default_server;
     listen       [::]:80 default_server;
@@ -33,7 +33,7 @@ server {
         return 301 https://$host$request_uri;
     }
 }
-##################################################################
+##### FIN COPIER #####
 
 ## Activez la config par defaut
 
@@ -43,7 +43,7 @@ server {
 
     sudo nano /etc/nginx/conf.d/solr.conf
 
-########## CONTENU DU FICHIER solr.conf #############################
+##### DEBUT COPIER #####
 server {
     listen       443 ssl http2 default_server;
     listen       [::]:443 ssl http2 default_server;
@@ -56,13 +56,11 @@ server {
     # Load configuration files for the default server block.
     include /etc/nginx/default.d/*.conf;
 
-    location / {
-    }
     # This is our Solr instance
 # We will access it through SSL instead of using the port directly
-location /solr {
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
+location / {
+    proxy_set_header Host \$host;
+    proxy_set_header X-Real-IP \$remote_addr;
     proxy_pass "http://localhost:8983";
 }
 
@@ -74,8 +72,16 @@ error_page 500 502 503 504 /50x.html;
     location = /50x.html {
 }
 }
+##### FIN COPIER #####
+
 
 ATTENTION => remplacez bdx0.kumalabs.consulting par le nom de votre machine ex=> bdx1.kumalabs.consulting
+
+##### DEBUT COPIER #####
+sudo sed -i "s/bdx0/bdx1/g" /etc/nginx/conf.d/solr.conf
+##### FIN COPIER #####
+
+
 
 ## Relancez le service nginx
 
@@ -89,4 +95,6 @@ ATTENTION => remplacez bdx0.kumalabs.consulting par le nom de votre machine ex=>
 
     https://bdxY.kumalabs.consulting/solr/  => REMPLACEZ Y par le numéro de votre machine
 
-##################################################################
+===>>> On remarquera que solr est accessible à tous sans mot de passe ! <<<===
+
+####################### FIN TD2 ################################
