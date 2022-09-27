@@ -4,7 +4,7 @@
 #                                                           #
 #############################################################
 
-### TD3 - Schema
+### TD4 - Schema
 ## Le but est de constatez le managed-schema (la prise en charge automatisé d'un import de données sans définition de schema)
 ## Nous allons reprendre la collection laposte.
 
@@ -18,7 +18,7 @@
     * des dynamicField
     * des copyField
 
-## Vous remarquez aussi que le nom des fields ont été automatiquement généré. Ce core est actuellement managé automatiquement car nous n'avons pas préciser de schéma.
+## Vous remarquez aussi que les noms des fields ont été automatiquement générés. Ce core est actuellement managé automatiquement car nous n'avons pas préciser de schéma.
 
 
 #### Nous allons supprimer puis créer à nouveau le core laposte
