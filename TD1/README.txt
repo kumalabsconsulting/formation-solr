@@ -25,7 +25,7 @@
 
     sudo service solr status
 
-## Verifiez le Solr Home Directory présent dans le script de démarrage
+## Verifiez si le Solr Home Directory est présent dans le script de démarrage
 
     sudo grep SOLR_ENV /etc/init.d/solr
 
@@ -39,28 +39,30 @@
 
 ## Vérifiez le port d'écoute du service
 
-    sudo netstat -nlpt|grep 8983
+    sudo apt install -y net-tools;sudo netstat -nlpt|grep 8983
 
-## Arrêtez le standalone solr
+## Ajout de notre utilisateur au group solr
 
-    sudo systemctl stop solr.service
-
-## Démarrons un cluster solr (cloud)
-
-    sudo mkdir -p /opt/solr/example/cloud/node1/logs /opt/solr/example/cloud/node2/logs
-    sudo chown -R solr:root /opt/solr-9.0.0/
-    sudo chown solr:root /etc/default/solr.in.sh
     sudo -i
-    su - solr bash -c '/opt/solr/bin/solr start -v -e cloud'
+    usermod bdxuser -G solr
 
-(specify 1-4 nodes) [2]: => entrée
-Please enter the port for node1 [8983]: =>entrée
-Please enter the port for node2 [7574]: => entrée
-Please provide a name for your new collection: [gettingstarted] => entrée
-How many shards would you like to split gettingstarted into? [2] => techproducts => entrée
-How many replicas per shard would you like to create? [2] => entrée
-_default or sample_techproducts_configs [_default] => sample_techproducts_configs => entrée
+## Creation de notre premier Solr Core
 
+    sudo -i
+    su - solr bash -c '/opt/solr/bin/solr create -c laposte -s 2 -rf 2'
+
+## Import de notre fichier CSV
+
+    su - solr bash -c '/opt/solr/bin/post -c laposte laposte_custom.json -u "solr:Bdx33;;"'
+    curl "http://localhost:8983/solr/laposte/select?q=*"
+    curl "http://localhost:8983/solr/laposte/select?q=*"|jq -r '.'
+
+## Déplacez-vous vers le fichier schema.xml
+
+    sudo -i
+    su - solr
+    cd /var/solr/data/laposte/conf
+    more managed-schema.xml
 
 ## Un message Warning peut apparaître sur le nombre de fichier ouvert.
 
@@ -77,12 +79,6 @@ solr soft nofile 65535
 solr hard nproc 65535
 solr soft nproc 65535
 
+    apt-get install haveged -y
 
-## Ajout de l'authentification admin
-    sudo -i
-    su - solr bash -c '/opt/solr/bin/solr auth enable -type basicAuth -prompt true -z localhost:9983'
-
-Veuillez indiquer admin en login et Bdx33;; en mdp.
-
-
-Vous remarquerez que le service écoute sur 127.0.0.1:8983 et reste donc inaccessible en dehors de la machine. Il nous faut un reverse proxy pour y accèder depuis l'extérieur (voir TD2)
+########## FIN TD1 ##########

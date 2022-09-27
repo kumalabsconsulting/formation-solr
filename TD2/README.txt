@@ -4,7 +4,7 @@
 #                                                           #
 #############################################################
 
-### TD2 - Rendre inaccessible solr en direct avec un reverse-proxy ###
+### TD2 - Rendre accessible solr en direct avec un reverse-proxy ###
 Lancez l'installation de nginx
 
     sudo apt install nginx -y
