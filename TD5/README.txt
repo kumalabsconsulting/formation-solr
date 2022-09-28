@@ -20,7 +20,7 @@
 (specify 1-4 nodes) [2]: => entrée
 Please enter the port for node1 [8983]: =>entrée
 Please enter the port for node2 [7574]: => entrée
-Please provide a name for your new collection: [gettingstarted] => entrée
-How many shards would you like to split gettingstarted into? [2] => techproducts => entrée
+Please provide a name for your new collection: [gettingstarted] => techproducts => entrée
+How many shards would you like to split techproducts into? [2] => entrée
 How many replicas per shard would you like to create? [2] => entrée
 _default or sample_techproducts_configs [_default] => sample_techproducts_configs => entrée
