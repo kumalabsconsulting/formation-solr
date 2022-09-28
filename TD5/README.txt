@@ -11,7 +11,7 @@
 
 ## Démarrons un cluster solr (cloud)
 
-    sudo mkdir -p /opt/solr/example/cloud/node1/logs /opt/solr/example/cloud/node2/logs
+    sudo mkdir -p /opt/solr/example/cloud/node1/solr /opt/solr/example/cloud/node2/solr /opt/solr/example/cloud/node1/logs /opt/solr/example/cloud/node2/logs
     sudo chown -R solr:root /opt/solr-9.0.0/
     sudo chown solr:root /etc/default/solr.in.sh
     sudo -i
